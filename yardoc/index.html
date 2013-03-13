@@ -1,0 +1,200 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII" />
+<title>
+  File: README
+  
+    &mdash; rspec-steps-0.1.0 RDoc
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '';
+  framesUrl = "frames.html#!" + escape(window.location.href);
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="_index.html">Index</a> &raquo; 
+    <span class="title">File: README</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="file_list.html">
+      File List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><div id='filecontents'>
+<p># RSpec Steps ## ( or: why would I want to relearn how to write specs? )</p>
+
+<p>RSpec Steps allows you to chain examples into a series of steps that run in
+sequence and which stop when a step fails.  It's often incredibly useful to
+be able to aseemble a series of tests that should all pass, but where
+completely isolating them is less than sensible.</p>
+
+<p>One excellent example is web site integration tests.  With RSpec steps you
+can do:</p>
+
+<pre class="code ruby"><code><span class='id identifier rubyid_steps'>steps</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Login and change password</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_it'>it</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>should show the login form</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_visit'>visit</span> <span class='id identifier rubyid_root'>root</span>
+    <span class='id identifier rubyid_page'>page</span><span class='period'>.</span><span class='id identifier rubyid_should'>should</span> <span class='id identifier rubyid_have_text'>have_text</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Login</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_it'>it</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>should successfully log in</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_fill_in'>fill_in</span> <span class='symbol'>:name</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Johnny User</span><span class='tstring_end'>&quot;</span></span>
+    <span class='id identifier rubyid_click'>click</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Login</span><span class='tstring_end'>&quot;</span></span>
+    <span class='id identifier rubyid_page'>page</span><span class='period'>.</span><span class='id identifier rubyid_should'>should</span> <span class='id identifier rubyid_have_text'>have_text</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Welcome, Johnny!</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_it'>it</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>should load the password change form</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_click'>click</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>My Settings</span><span class='tstring_end'>&quot;</span></span>
+    <span class='id identifier rubyid_click'>click</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Update Password</span><span class='tstring_end'>&quot;</span></span>
+    <span class='id identifier rubyid_page'>page</span><span class='period'>.</span><span class='id identifier rubyid_should'>should</span> <span class='id identifier rubyid_have_selector'>have_selector</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>form#update_password</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_it'>it</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>should change the user's password successfully</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_fill_in'>fill_in</span> <span class='symbol'>:password</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>foobar</span><span class='tstring_end'>&quot;</span></span>
+    <span class='id identifier rubyid_fill_in'>fill_in</span> <span class='symbol'>:password_confirmation</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>foobar</span><span class='tstring_end'>&quot;</span></span>
+    <span class='id identifier rubyid_click'>click</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Change Password</span><span class='tstring_end'>&quot;</span></span>
+    <span class='id identifier rubyid_page'>page</span><span class='period'>.</span><span class='id identifier rubyid_should'>should</span> <span class='id identifier rubyid_have_text'>have_text</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Password changed successfully!</span><span class='tstring_end'>&quot;</span></span>
+    <span class='const'>User</span><span class='period'>.</span><span class='id identifier rubyid_find_by_name'>find_by_name</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Johnny User</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_valid_password?'>valid_password?</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>foobar</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_should'>should</span> <span class='id identifier rubyid_be_true'>be_true</span>
+  <span class='kw'>end</span>
+
+<span class='kw'>end</span></code></pre>
+
+<p>The examples above will be run in order.  State is preserved between
+examples inside a "steps" block: any DB transactions will not roll back
+until the entire sequence has been complete.</p>
+
+<p>If any example inside the "steps" block fails, all remaining steps will be
+marked pending and therefore skipped.</p>
+
+<p>## Rationale</p>
+
+<p>RSpec's philosophy is that all examples should be completely independent. 
+This is a great philosophy for most purposes, and we recommend you stick to
+it in almost all cases.  BUT, that complete separation of examples really
+sucks when you're trying to write long stories involving many requests.  
+You are usually stuck with three choices:</p>
+<ol><li>
+<p>Write a sequence of examples, each of which repeats the behavior of all
+previous examples. Downside: horrendously inefficient.</p>
+</li><li>
+<p>Write a single huge example which performs the entire story.  Downside:
+only one description, no independent reporting of the steps of the story.</p>
+</li><li>
+<p>Use Cucumber.  Downside: We agree totally with this guy: <a
+href="http://bit.ly/dmXqnY">bit.ly/dmXqnY</a></p>
+</li></ol>
+
+<p>RSpec-steps intentionally breaks RSpec's "independent" philosophy to let us
+get the only thing we really want from Cucumber - the ability to execute
+some examples in sequence, and skip subsequent steps after a failure.</p>
+
+<p>## Caveats and cautions</p>
+
+<p>Don't call "describe" inside of "steps".  The behavior is undefined and
+probably bad.  It's hard to imagine what this should actually mean in any
+case.  Future versions of rspec-steps will consider this an error.</p>
+
+<p>Any call to "before" inside a steps block is treated like before(:all) and
+is run only once before the first step.  Or perhaps more accurately, any
+call to before() is treated like before(:each) ... but for these purposes
+the entire steps block is treated like a single example.</p>
+
+<p>## Advanced stuff:  shared steps</p>
+
+<p>If you have (for example) two user stories that share the same first N
+steps but then diverge, you can DRY your code out with shared_steps blocks,
+like so:</p>
+
+<pre class="code ruby"><code>shared_steps &quot;For a logged-in user&quot; do
+  it &quot;should have login form&quot;
+    visit root
+    page.should have_selector &quot;form#login&quot;
+  end
+
+  it &quot;should log the user in&quot; do
+    fill_in :name, &quot;Johnny User&quot;
+    page.should have_text &quot;Welcome, Johnny!&quot;
+  end
+end
+
+steps &quot;updating password&quot; do
+  perform_steps &quot;For a logged-in user&quot;
+
+  it &quot;should update the password&quot; do
+    ...
+  end
+end
+
+steps &quot;uploading a profile picture&quot; do
+  perform_steps &quot;For a logged-in user&quot;
+
+  it &quot;should upload a picture&quot; do
+     ...
+  end
+end</code></pre>
+
+<p>## Versions and Dependencies</p>
+
+<p>0.1.0: Released Mar 12, 2013.</p>
+
+<pre class="code ruby"><code>Compatible with RSpec 2.10-2.13 - probably works with earlier versions</code></pre>
+
+<p>0.0.9: Released Feb 22, 2013.</p>
+
+<pre class="code ruby"><code>NOTES: works with rspec 2.6 through 2.10.  Does not work with rspec &gt;= 2.11</code></pre>
+
+<p>0.0.8: Released Jan 11, 2012.</p>
+
+<pre class="code ruby"><code>NOTES: Will not work with rspec &gt; 2.9.</code></pre>
+</div>
+</div>
+
+    <div id="footer">
+  Generated on Tue Mar 12 18:15:07 2013 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.3 (ruby-1.9.3).
+</div>
+
+  </body>
+</html>
